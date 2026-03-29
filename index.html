@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="SkootteriKeskus — sähköpyörät, fatbike, varaosat ja huolto Helsinki. Maksutavat: kortit, MobilePay, kansainväliset palvelut.">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>SkootteriKeskus | Sähköskootterit &amp; Varaosat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+        :root {
+            --sk-black: #0a0a0a;
+            --sk-yellow: #facc15;
+            --sk-yellow-hover: #fde047;
+        }
+
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            margin: 0;
+            padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
+            -webkit-text-size-adjust: 100%;
+            overscroll-behavior-x: none;
+        }
+        @media (min-width: 768px) {
+            body { padding-bottom: 0; }
+        }
+        body.nav-compact {
+            padding-bottom: calc(3.25rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 3px solid #2563eb;
+        }
+
+        .mobile-menu {
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-100%);
+            visibility: hidden;
+        }
+        .mobile-menu.active { transform: translateX(0); visibility: visible; }
+
+        .overlay { display: none; background: rgba(0,0,0,0.5); }
+        .overlay.active { display: block; }
+
+        /* Hero Swiper — mobiili: ei liian korkea pienillä näytöillä */
+        .swiper-hero {
+            width: 100%;
+            height: min(78vh, 820px);
+            min-height: clamp(360px, 55vh, 520px);
+        }
+        @media (min-width: 768px) {
+            .swiper-hero { height: min(88vh, 820px); min-height: 480px; }
+        }
+        .swiper-hero .swiper-slide {
+            position: relative;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide-gradient {
+            background: linear-gradient(rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.78));
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+            padding: 0 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .hero-title {
+            font-size: clamp(1.85rem, 6.5vw, 4.75rem);
+            line-height: 1.05;
+        }
+        .btn-yellow {
+            background: var(--sk-yellow);
+            color: #0a0a0a;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .btn-yellow:hover { background: var(--sk-yellow-hover); transform: scale(1.04); }
+        .btn-hero-outline {
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-hero-outline:hover { background: rgba(255, 255, 255, 0.22); transform: scale(1.04); }
+
+        .swiper-hero .swiper-pagination-bullet { background: #fff; opacity: 0.45; }
+        .swiper-hero .swiper-pagination-bullet-active { opacity: 1; background: var(--sk-yellow); }
+        .swiper-hero .swiper-button-next,
+        .swiper-hero .swiper-button-prev {
+            color: #fff;
+            width: 40px; height: 40px;
+            margin-top: 0; top: 50%; transform: translateY(-50%);
+        }
+        .swiper-hero .swiper-button-next::after,
+        .swiper-hero .swiper-button-prev::after { font-size: 1.1rem; font-weight: 900; }
+
+        /* Category cards */
+        .cat-card {
+            border-radius: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            background: #fff;
+        }
+        .cat-card img { display: block; width: 100%; height: auto; object-fit: cover; }
+        .cat-bar {
+            background: var(--sk-black);
+            padding: 1.25rem 1rem 1.5rem;
+            text-align: center;
+        }
+        .cat-bar h3 {
+            color: #fff;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+            margin: 0 0 1rem;
+        }
+        .btn-tutustu {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            background: var(--sk-yellow);
+            color: #0a0a0a;
+            font-weight: 900;
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-tutustu:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(250, 204, 21, 0.35); }
+
+        /* Product card: hinta & osto ylhäällä, kuva alhaalla */
+        .huippu-card {
+            background: #fff;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+        }
+        .huippu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        }
+        .huippu-card-body { padding: 16px 18px 18px; order: 1; }
+        .card-media {
+            position: relative;
+            background: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+            order: 2;
+            min-height: 140px;
+        }
+        .card-media img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .badge-discount {
+            display: inline-block;
+            background: #dc2626; color: #fff; font-weight: 900; font-size: 11px;
+            padding: 4px 10px; border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .badge-save {
+            display: inline-block;
+            background: #e8f5e9; color: #166534; font-weight: 700; font-size: 10px;
+            padding: 4px 10px; border-radius: 6px;
+            margin-left: 6px;
+        }
+
+        /* Lifestyle gallery (below product boxes) */
+        .swiper-gallery {
+            width: 100%;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+        }
+        .swiper-gallery .swiper-slide { position: relative; height: auto; }
+        .swiper-gallery .swiper-slide img {
+            width: 100%;
+            height: min(70vh, 520px);
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 1rem 1.25rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.75));
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .swiper-gallery .swiper-pagination-bullet { background: #fff; opacity: 0.5; }
+        .swiper-gallery .swiper-pagination-bullet-active { opacity: 1; background: #facc15; }
+        .swiper-gallery .swiper-button-next,
+        .swiper-gallery .swiper-button-prev {
+            color: #fff;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+        }
+
+        .social-brand-youtube { color: #FF0000 !important; }
+        .social-brand-facebook { color: #1877F2 !important; }
+        .social-brand-instagram {
+            display: inline-block;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .social-brand-messenger { color: #0084FF !important; }
+
+        .showroom-wrap { position: relative; border-radius: 1.25rem; overflow: hidden; }
+        .showroom-wrap img { width: 100%; display: block; }
+        .showroom-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2));
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 1.5rem;
+            color: #fff;
+        }
+
+        /* Mobile bottom nav — labels hide when scrolled (icons only) */
+        .bottom-nav {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            z-index: 90;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #e2e8f0;
+            padding: 0.4rem 0.75rem calc(0.4rem + env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 100vw;
+            transition: padding 0.25s ease;
+        }
+        .bottom-nav a {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            min-height: 48px;
+            padding: 6px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748b;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .bottom-nav a i { font-size: 1.35rem; transition: font-size 0.2s; }
+        .bottom-nav a .nav-label { transition: opacity 0.2s, max-height 0.2s, margin 0.2s; line-height: 1.2; }
+        .bottom-nav a.active { color: #2563eb; background: #eff6ff; }
+        .bottom-nav a:active { transform: scale(0.96); }
+
+        body.nav-compact .bottom-nav {
+            padding: 0.35rem 0.5rem calc(0.35rem + env(safe-area-inset-bottom));
+        }
+        body.nav-compact .bottom-nav a {
+            min-height: 44px;
+            padding: 10px 8px;
+            gap: 0;
+        }
+        body.nav-compact .bottom-nav a i { font-size: 1.5rem; }
+        body.nav-compact .bottom-nav a .nav-label {
+            position: absolute;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .bottom-nav a { position: relative; }
+
+        .lang-chip {
+            position: fixed;
+            bottom: calc(4.75rem + env(safe-area-inset-bottom));
+            right: 0.75rem;
+            z-index: 95;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 9999px;
+            padding: 6px 12px 6px 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        body.nav-compact .lang-chip {
+            bottom: calc(3.85rem + env(safe-area-inset-bottom));
+        }
+        @media (min-width: 768px) {
+            .lang-chip { bottom: 1.5rem; }
+            body.nav-compact .lang-chip { bottom: 1.5rem; }
+        }
+        .lang-panel {
+            display: none;
+            position: fixed;
+            bottom: calc(6.5rem + env(safe-area-inset-bottom));
+            right: 0.75rem;
+            z-index: 96;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            min-width: 160px;
+            overflow: hidden;
+        }
+        body.nav-compact .lang-panel {
+            bottom: calc(5.5rem + env(safe-area-inset-bottom));
+        }
+        .lang-panel.open { display: block; }
+        .lang-panel button {
+            display: block; width: 100%; padding: 12px 16px; border: none; background: none;
+            text-align: left; font-weight: 600; cursor: pointer;
+        }
+        .lang-panel button:hover { background: #f1f5f9; }
+
+        .gradient-heading span:first-child {
+            background: linear-gradient(90deg, #7c3aed, #2563eb);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .snap-row {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.5rem max(0px, env(safe-area-inset-left)) 1.25rem max(0px, env(safe-area-inset-right));
+            scrollbar-gutter: stable;
+        }
+        .snap-row > * { scroll-snap-align: start; flex-shrink: 0; }
+
+        /* Maksutavat — luottamusnauha */
+        .payment-strip {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem 1rem;
+        }
+        .payment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.5rem 0.85rem;
+            border-radius: 9999px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #334155;
+        }
+        .payment-badge i { font-size: 1.1rem; opacity: 0.9; }
+
+        /* Isommat kosketusalueet mobiilissa */
+        .tap-44 { min-height: 44px; min-width: 44px; }
+        .btn-product-cta {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body id="top" class="overflow-x-hidden">
+
+    <div id="overlay" class="overlay fixed inset-0 z-[55]"></div>
+
+    <header id="home">
+        <div class="bg-slate-900 text-slate-300 text-[10px] md:text-xs py-2 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-3 md:gap-4">
+                <a href="https://maps.google.com/?q=Resiinakuja+3,+00520+Helsinki" target="_blank" rel="noopener" class="flex items-center hover:text-white transition">
+                    <i class="fa-solid fa-location-dot text-blue-500 mr-2"></i> Resiinakuja 3, Helsinki
+                </a>
+                <a href="mailto:skootterikeskus@gmail.com" class="hidden md:flex items-center hover:text-white transition">
+                    <i class="fa-solid fa-envelope text-blue-500 mr-2"></i> skootterikeskus@gmail.com
+                </a>
+            </div>
+            <a href="tel:+358414989087" class="font-bold text-white flex items-center hover:text-blue-300 transition">
+                <i class="fa-solid fa-phone text-blue-500 mr-2"></i> +358 41 498 9087
+            </a>
+        </div>
+
+        <nav class="nav-glass sticky top-0 z-50 px-4 md:px-10 py-3 flex justify-between items-center shadow-sm">
+            <div class="flex items-center gap-3">
+                <button type="button" id="menuBtn" class="md:hidden text-2xl text-slate-800 tap-44 -ml-2 rounded-xl flex items-center justify-center" aria-label="Menu" aria-controls="sidebar" aria-expanded="false"><i class="fa-solid fa-bars-staggered" aria-hidden="true"></i></button>
+                <a href="#home" class="text-lg md:text-2xl font-black text-slate-900 uppercase tracking-tighter">
+                    Skootteri<span class="text-blue-600 italic underline decoration-2">Keskus</span>
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-6 font-bold text-slate-700 text-xs uppercase tracking-wider">
+                <a href="#categories" class="hover:text-blue-600 transition">Kategoriat</a>
+                <a href="#deals" class="hover:text-blue-600 transition">Tarjoukset</a>
+                <a href="#showroom" class="hover:text-blue-600 transition">Näyttely</a>
+                <a href="#payment" class="hover:text-blue-600 transition">Maksutavat</a>
+                <a href="#contact" class="hover:text-blue-600 transition">Yhteystiedot</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden lg:block relative">
+                    <input type="search" id="searchInput" placeholder="Haku..." class="bg-slate-100 rounded-full pl-4 pr-10 py-2 text-sm w-44 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-slate-400 pointer-events-none"></i>
+                </div>
+                <a href="#account" class="text-slate-700 hover:text-blue-600" aria-label="Tili"><i class="fa-solid fa-user text-xl"></i></a>
+                <a href="#deals" class="relative text-slate-800 hover:text-blue-600" aria-label="Ostoskori">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                    <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-black rounded-full h-5 min-w-[1.25rem] px-0.5 flex items-center justify-center">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <aside id="sidebar" class="mobile-menu fixed top-0 left-0 w-[280px] h-full bg-white z-[60] shadow-2xl">
+        <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
+            <span class="font-black text-lg">Valikko</span>
+            <button type="button" id="closeBtn" class="text-2xl p-2 tap-44 rounded-lg flex items-center justify-center" aria-label="Sulje"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <nav class="p-6">
+            <ul class="space-y-1 font-bold text-slate-800">
+                <li><a href="#home" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-house text-blue-600 w-6 text-center"></i> Etusivu</a></li>
+                <li><a href="#categories" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-layer-group text-blue-600 w-6 text-center"></i> Kategoriat</a></li>
+                <li><a href="#deals" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-fire text-blue-600 w-6 text-center"></i> Tarjoukset</a></li>
+                <li><a href="#showroom" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-store text-blue-600 w-6 text-center"></i> Näyttelytila</a></li>
+                <li><a href="#contact" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-phone text-blue-600 w-6 text-center"></i> Yhteystiedot</a></li>
+                <li><a href="#payment" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-credit-card text-blue-600 w-6 text-center"></i> Maksutavat</a></li>
+                <li class="pt-4 border-t mt-4"><a href="mailto:skootterikeskus@gmail.com" class="text-sm text-slate-500 font-normal p-2">skootterikeskus@gmail.com</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Hero: vain uudet kuvat -->
+    <div class="swiper swiper-hero mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image:url('./assets/hero-snow-fatbike.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">Premium <span class="text-yellow-300">Electric Mobility</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Fatbike &amp; talvi — tehoa ja pitoa.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#deals" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Osta nyt</a>
+                        <a href="#lifestyle-gallery" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase">Kuvagalleria</a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image:url('./assets/lifestyle-puriva-pink.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">PURIVA <span class="text-yellow-300">sähköpyörä</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Kaupunkiin — näyttävä pinkki fatbike.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#deals" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Tuotteet</a>
+                        <a href="tel:+358414989087" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase"><i class="fa-solid fa-phone mr-2"></i>Soita</a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image:url('./assets/lifestyle-desert-jump.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">Maasto &amp; <span class="text-yellow-300">teho</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Fatbike-maastossa — kestävää laatua.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#deals" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Tarjoukset</a>
+                        <a href="https://wa.me/358414989087" target="_blank" rel="noopener" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase"><i class="fa-brands fa-whatsapp mr-2"></i>WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image:url('./assets/service-workshop.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">Huolto &amp; <span class="text-yellow-300">palvelu</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Ammattimainen pyörähuolto.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#showroom" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Huoltoaika</a>
+                        <a href="#contact" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase">Yhteys</a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image:url('./assets/part-controller-spec.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">Varaosat &amp; <span class="text-yellow-300">säädin</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Sähköskootterin ohjain — tarkka laatu.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#deals" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Katso tuotteet</a>
+                        <a href="#contact" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase">Kysy sopivuus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image:url('./assets/promo-ebike-1500w.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">Tehokas <span class="text-yellow-300">1500W</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Kokoontaitettava sähköpyörä — nopeus ja kantama.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#deals" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Tutustu</a>
+                        <a href="#lifestyle-gallery" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase">Lisää kuvia</a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" style="background-image:url('./assets/rockbros-collage.png')">
+                <div class="slide-gradient"></div>
+                <div class="slide-content">
+                    <h1 class="hero-title font-black uppercase tracking-tight max-w-4xl">Lisävarusteet <span class="text-yellow-300">ROCKBROS</span></h1>
+                    <p class="mt-3 text-white/90 text-sm max-w-lg">Laukut ja varusteet pyörään.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <a href="#deals" class="btn-yellow inline-flex px-8 py-3.5 rounded-full text-xs uppercase shadow-lg">Osta</a>
+                        <a href="#categories" class="btn-hero-outline inline-flex px-8 py-3.5 rounded-full text-xs uppercase">Kategoriat</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-prev" aria-label="Edellinen"></div>
+        <div class="swiper-button-next" aria-label="Seuraava"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- Tuotteet ensin: hinta & osto ylhäällä, kuva alhaalla -->
+    <section id="deals" class="py-12 px-4 md:px-8 bg-slate-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-2xl font-black mb-1 text-slate-900 uppercase">Tuotteet / Tarjoukset</h2>
+            <p class="text-slate-600 text-sm mb-8">Hinta ja tilaus ylhäällä — tuotekuva kortin alaosassa.</p>
+            <div class="snap-row md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible gap-6 pb-2">
+                <article class="huippu-card w-[min(88vw,300px)] md:w-auto">
+                    <div class="huippu-card-body">
+                        <div><span class="badge-discount">-41%</span><span class="badge-save">Säästät 20 €</span></div>
+                        <h3 class="font-bold text-sm uppercase mt-3 min-h-[2.5rem] line-clamp-2">ROCKBROS — laukut &amp; varusteet</h3>
+                        <p class="text-[10px] text-green-600 font-bold mt-2"><i class="fa-solid fa-check mr-1"></i> Heti varastosta</p>
+                        <div class="mt-3 flex items-end gap-2">
+                            <span class="text-2xl font-black text-red-600">29 €</span>
+                            <span class="text-slate-400 line-through text-sm">49 €</span>
+                        </div>
+                        <a href="https://wa.me/358414989087?text=Tilaus:%20ROCKBROS" class="mt-4 block w-full bg-slate-900 text-white text-center py-3 rounded-lg font-bold uppercase text-[10px] hover:bg-blue-600 transition btn-product-cta">Tilaa nyt</a>
+                    </div>
+                    <div class="card-media">
+                        <img src="./assets/rockbros-collage.png" alt="ROCKBROS pyörävarusteet" loading="lazy" width="400" height="200">
+                    </div>
+                </article>
+                <article class="huippu-card w-[min(88vw,300px)] md:w-auto">
+                    <div class="huippu-card-body">
+                        <h3 class="font-bold text-sm uppercase min-h-[2.5rem] line-clamp-2">PURIVA sähköfatbike — pinkki</h3>
+                        <p class="text-[10px] text-slate-500 mt-1">Kaupunkiajo, tehokas moottori</p>
+                        <div class="mt-3 flex items-end gap-2">
+                            <span class="text-2xl font-black text-red-600">1499 €</span>
+                        </div>
+                        <a href="tel:+358414989087" class="mt-4 block w-full bg-slate-900 text-white text-center py-3 rounded-lg font-bold uppercase text-[10px] hover:bg-blue-600 transition btn-product-cta">Soita &amp; tilaa</a>
+                    </div>
+                    <div class="card-media">
+                        <img src="./assets/lifestyle-puriva-pink.png" alt="PURIVA sähköpyörä" loading="lazy" width="400" height="200">
+                    </div>
+                </article>
+                <article class="huippu-card w-[min(88vw,300px)] md:w-auto">
+                    <div class="huippu-card-body">
+                        <span class="badge-discount">-10%</span>
+                        <h3 class="font-bold text-sm uppercase mt-3 min-h-[2.5rem] line-clamp-2">Sähköskootterin ohjain / säädin</h3>
+                        <div class="mt-3 flex items-end gap-2">
+                            <span class="text-2xl font-black text-red-600">269 €</span>
+                            <span class="text-slate-400 line-through text-sm">299 €</span>
+                        </div>
+                        <a href="https://wa.me/358414989087?text=Kysely:%20ohjain" class="mt-4 block w-full bg-slate-900 text-white text-center py-3 rounded-lg font-bold uppercase text-[10px] hover:bg-blue-600 transition btn-product-cta">Tilaa nyt</a>
+                    </div>
+                    <div class="card-media">
+                        <img src="./assets/part-controller-spec.png" alt="Sähköskootterin ohjain ja säädin" loading="lazy" width="400" height="200">
+                    </div>
+                </article>
+                <article class="huippu-card w-[min(88vw,300px)] md:w-auto border-2 border-blue-600">
+                    <div class="huippu-card-body">
+                        <div><span class="badge-discount">-41%</span><span class="badge-save">Säästät 20 €</span></div>
+                        <h3 class="font-bold text-sm uppercase mt-3 min-h-[2.5rem] line-clamp-2">Premium sähköpyöräpaketti (1500W)</h3>
+                        <p class="text-[10px] text-green-600 font-bold mt-2"><i class="fa-solid fa-check mr-1"></i> Kampanja</p>
+                        <div class="mt-3 flex items-end gap-2">
+                            <span class="text-2xl font-black text-red-600">2499 €</span>
+                            <span class="text-slate-400 line-through text-sm">2899 €</span>
+                        </div>
+                        <a href="https://wa.me/358414989087?text=Tilaus:%201500W%20paketti" class="mt-4 block w-full bg-red-600 text-white text-center py-3 rounded-lg font-bold uppercase text-[10px] hover:bg-red-700 transition btn-product-cta">Tilaa nyt</a>
+                    </div>
+                    <div class="card-media">
+                        <img src="./assets/promo-ebike-1500w.png" alt="1500W sähköpyörä" loading="lazy" width="400" height="200">
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kuvagalleria: kaikki uudet kuvat tuotteiden alla -->
+    <section id="lifestyle-gallery" class="py-12 px-4 md:px-8 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-2xl font-black text-slate-900 uppercase mb-1 text-center">Kuvat &amp; elämäntapa</h2>
+            <p class="text-slate-600 text-sm text-center mb-8">Automaattinen karuselli — sama kuvasto kuin yläbannerissa.</p>
+            <div class="swiper swiper-gallery gallerySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="./assets/hero-snow-fatbike.png" alt="Talvi fatbike" loading="lazy">
+                        <div class="gallery-caption">Talvi &amp; fatbike</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/lifestyle-puriva-pink.png" alt="PURIVA kaupungissa" loading="lazy">
+                        <div class="gallery-caption">PURIVA — kaupunkisähköpyörä</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/lifestyle-desert-jump.png" alt="Maastopyörä" loading="lazy">
+                        <div class="gallery-caption">Maasto &amp; adrenaliini</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/service-workshop.png" alt="Huolto" loading="lazy">
+                        <div class="gallery-caption">Ammattihuolto</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/part-controller-spec.png" alt="Ohjain" loading="lazy">
+                        <div class="gallery-caption">Sähköskootterin ohjain</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/parts-motor-kit.png" alt="Moottorisarja" loading="lazy">
+                        <div class="gallery-caption">Moottorisarja &amp; varaosat</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/promo-ebike-1500w.png" alt="1500W" loading="lazy">
+                        <div class="gallery-caption">1500W — teho &amp; kantama</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./assets/rockbros-collage.png" alt="ROCKBROS" loading="lazy">
+                        <div class="gallery-caption">ROCKBROS — laukut &amp; tarvikkeet</div>
+                    </div>
+                </div>
+                <div class="swiper-button-prev" aria-label="Edellinen"></div>
+                <div class="swiper-button-next" aria-label="Seuraava"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categories" class="py-12 px-4 md:px-8 max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-black text-slate-900 uppercase mb-2 text-center">Kategoriat</h2>
+        <p class="text-slate-600 text-center text-sm mb-10 max-w-xl mx-auto">Sähköpyörät, maasto ja varaosat.</p>
+
+        <div class="flex flex-col gap-8">
+            <article class="cat-card">
+                <a href="#deals" class="block focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-t-2xl overflow-hidden">
+                    <img src="./assets/lifestyle-desert-jump.png" alt="Maasto sähköpyörä" width="800" height="500" loading="lazy">
+                </a>
+                <div class="cat-bar">
+                    <h3>SÄHKÖPYÖRÄT &amp; FATBIKE</h3>
+                    <a href="#deals" class="btn-tutustu">TUTUSTU VALIKOIMAAN</a>
+                </div>
+            </article>
+            <article class="cat-card">
+                <a href="#deals" class="block focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-t-2xl overflow-hidden">
+                    <img src="./assets/lifestyle-puriva-pink.png" alt="Kaupunkipyörä" width="800" height="500" loading="lazy">
+                </a>
+                <div class="cat-bar">
+                    <h3>KAUPUNKI &amp; COMMUTE</h3>
+                    <a href="#deals" class="btn-tutustu">TUTUSTU VALIKOIMAAN</a>
+                </div>
+            </article>
+            <article class="cat-card">
+                <a href="#deals" class="block focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-t-2xl overflow-hidden">
+                    <img src="./assets/parts-motor-kit.png" alt="Varaosat ja moottorisarja" width="800" height="500" loading="lazy">
+                </a>
+                <div class="cat-bar">
+                    <h3>VARAOSAT &amp; OHJAIMET</h3>
+                    <a href="#deals" class="btn-tutustu">TUTUSTU VALIKOIMAAN</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="showroom" class="py-12 px-4 md:px-8 bg-white border-y border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="gradient-heading text-2xl md:text-3xl font-black text-center mb-2 uppercase tracking-tight">
+                <span>MEIDÄT</span> <span class="text-slate-800">TAVOITAT</span>
+            </h2>
+            <div class="h-1 w-24 mx-auto mb-8 rounded-full bg-gradient-to-r from-blue-600 to-violet-600"></div>
+            <div class="showroom-wrap shadow-xl">
+                <img src="./assets/service-workshop.png" alt="Huolto ja palvelu" width="900" height="600" loading="lazy">
+                <div class="showroom-overlay text-left">
+                    <p class="text-2xl md:text-3xl font-black">Palvelu &amp; huolto</p>
+                    <p class="text-lg font-semibold text-white/95 mt-1">Resiinakuja 3, 00520 Helsinki</p>
+                    <a href="tel:+358414989087" class="inline-block mt-4 px-4 py-2 border-2 border-white rounded-lg font-bold text-sm hover:bg-white hover:text-slate-900 transition">
+                        Arkisin 10.00–18.00 · +358 41 498 9087
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suomi / EU — kansainväliset maksutavat (luottamus + Stripe-linkki valinnainen) -->
+    <section id="payment" class="py-12 px-4 md:px-8 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-black text-slate-900 uppercase text-center mb-2">Maksutavat</h2>
+            <p class="text-slate-600 text-sm text-center mb-8 max-w-2xl mx-auto">
+                Suomessa ja EU:ssa yleiset tavat: pankki- ja luottokortit, MobilePay, lasku- ja erämaksu (Klarna), sekä digitaaliset lompakot.
+                Verkkokaupan kassa voidaan kytkeä <strong>Stripeen</strong> tai <strong>PayPaliin</strong> — molemmat tukevat suomalaisia ja kansainvälisiä maksuja (SEPA, kortit, Apple Pay, Google Pay).
+            </p>
+            <div class="payment-strip mb-8" role="list" aria-label="Hyväksytyt maksutavat">
+                <span class="payment-badge" role="listitem"><i class="fa-brands fa-cc-visa text-blue-800"></i> Visa</span>
+                <span class="payment-badge" role="listitem"><i class="fa-brands fa-cc-mastercard text-red-600"></i> Mastercard</span>
+                <span class="payment-badge" role="listitem"><i class="fa-solid fa-credit-card text-slate-700"></i> Eurocard</span>
+                <span class="payment-badge" role="listitem"><i class="fa-brands fa-apple text-slate-900"></i> Apple Pay</span>
+                <span class="payment-badge" role="listitem"><i class="fa-brands fa-google text-slate-700"></i> Google Pay</span>
+                <span class="payment-badge" role="listitem"><i class="fa-brands fa-paypal text-blue-600"></i> PayPal</span>
+                <span class="payment-badge" role="listitem"><i class="fa-solid fa-mobile-screen text-emerald-600"></i> MobilePay</span>
+                <span class="payment-badge" role="listitem"><i class="fa-solid fa-receipt text-violet-600"></i> Klarna</span>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm text-center">
+                <p class="text-slate-700 text-sm mb-4">
+                    <i class="fa-solid fa-lock text-green-600 mr-1" aria-hidden="true"></i>
+                    Tilausvahvistus ja maksuohjeet: <strong>WhatsApp</strong>, <strong>puhelin</strong> tai sähköposti. Verkkomaksulinkki avautuu, kun Stripe Payment Link on kytketty (katso koodi).
+                </p>
+                <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+                    <a id="stripePayBtn" href="#payment" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-[#635BFF] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta" rel="noopener">
+                        <i class="fa-brands fa-stripe" aria-hidden="true"></i> Maksa Stripe-linkillä
+                    </a>
+                    <a href="https://www.paypal.com/fi/home" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-[#0070ba] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta">
+                        <i class="fa-brands fa-paypal" aria-hidden="true"></i> PayPal (FI)
+                    </a>
+                    <a href="https://wa.me/358414989087?text=Maksu%20/%20tilaus%20SkootteriKeskus" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-[#25D366] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Maksa / sovi WhatsApp
+                    </a>
+                </div>
+                <p class="text-slate-500 text-xs mt-6 text-left max-w-xl mx-auto">
+                    <strong>Kehittäjille:</strong> aseta <code class="bg-slate-100 px-1 rounded text-[11px]">STRIPE_PAYMENT_LINK</code> skriptin alussa omaan Stripe Payment Link -osoitteeseen (esim. <code class="text-[11px]">buy.stripe.com/...</code>). Tyhjä linkki ohjaa tähän osioon — ei virhettä.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-14 px-4 md:px-8 bg-slate-100">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+            <a href="tel:+358414989087" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center hover:shadow-md transition block">
+                <i class="fa-solid fa-phone text-3xl text-blue-600 mb-4"></i>
+                <h3 class="font-bold text-lg mb-2">Puhelin</h3>
+                <p class="text-slate-600 font-semibold">+358 41 498 9087</p>
+            </a>
+            <a href="mailto:skootterikeskus@gmail.com" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center hover:shadow-md transition block">
+                <i class="fa-solid fa-envelope text-3xl text-blue-600 mb-4"></i>
+                <h3 class="font-bold text-lg mb-2">Sähköposti</h3>
+                <p class="text-slate-600 font-semibold italic break-all">skootterikeskus@gmail.com</p>
+            </a>
+            <a href="https://maps.google.com/?q=Resiinakuja+3,+00520+Helsinki" target="_blank" rel="noopener" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center hover:shadow-md transition block">
+                <i class="fa-solid fa-map-location-dot text-3xl text-blue-600 mb-4"></i>
+                <h3 class="font-bold text-lg mb-2">Osoite</h3>
+                <p class="text-slate-600 font-semibold">Resiinakuja 3, Helsinki</p>
+            </a>
+        </div>
+    </section>
+
+    <section id="account" class="py-10 px-4 md:px-8 bg-white border-t border-slate-200">
+        <div class="max-w-xl mx-auto text-center">
+            <i class="fa-solid fa-user-circle text-5xl text-blue-600 mb-4"></i>
+            <h2 class="text-xl font-black uppercase text-slate-900 mb-2">Tili / Asiakaspalvelu</h2>
+            <p class="text-slate-600 text-sm mb-6">Tilaukset ja kysymykset: sähköposti tai WhatsApp.</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="mailto:skootterikeskus@gmail.com" class="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-blue-600 transition">Sähköposti</a>
+                <a href="https://wa.me/358414989087" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-full text-sm font-bold hover:opacity-95 transition">WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-white py-12 px-4 md:px-8 border-t-4 border-blue-600 pb-28 md:pb-12">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div>
+                <h2 class="text-2xl font-black mb-4 uppercase">Skootteri<span class="text-blue-600 underline decoration-2">Keskus</span></h2>
+                <p class="text-slate-400 text-sm leading-relaxed">Sähköskootterit, sähköpyörät ja varaosat — Helsinki.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 uppercase text-blue-500">Tuki</h4>
+                <ul class="text-slate-400 space-y-2 text-sm">
+                    <li><a href="#contact" class="hover:text-white transition">Toimitus</a></li>
+                    <li><a href="#contact" class="hover:text-white transition">Takuu</a></li>
+                    <li><a href="#showroom" class="hover:text-white transition">Huolto</a></li>
+                    <li><a href="#payment" class="hover:text-white transition">Maksutavat</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-2">
+                <h4 class="font-bold mb-4 uppercase text-blue-500">Yhteystiedot</h4>
+                <p class="text-slate-300 mb-2 font-bold"><i class="fa-solid fa-map-marker-alt mr-2 text-blue-600"></i> Resiinakuja 3, 00520 Helsinki</p>
+                <p class="text-slate-300 mb-2 font-bold"><i class="fa-solid fa-envelope mr-2 text-blue-600"></i> skootterikeskus@gmail.com</p>
+                <div class="flex flex-wrap gap-5 mt-6 text-2xl items-center">
+                    <a href="#" class="inline-flex hover:opacity-90" aria-label="YouTube"><i class="fa-brands fa-youtube social-brand-youtube"></i></a>
+                    <a href="#" class="inline-flex hover:opacity-90" aria-label="Facebook"><i class="fa-brands fa-facebook social-brand-facebook"></i></a>
+                    <a href="#" class="inline-flex hover:opacity-90" aria-label="Instagram"><i class="fa-brands fa-instagram social-brand-instagram"></i></a>
+                    <a href="#" class="inline-flex hover:opacity-90" aria-label="Messenger"><i class="fa-brands fa-facebook-messenger social-brand-messenger"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 pt-8 border-t border-slate-800 text-slate-500 text-xs">
+            © 2026 SkootteriKeskus Oy. Kaikki oikeudet pidätetään.
+        </div>
+    </footer>
+
+    <div class="lang-chip" id="langToggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+        <span class="text-lg leading-none" aria-hidden="true">🇫🇮</span>
+        <span id="langLabel">Suomi</span>
+        <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+    </div>
+    <div class="lang-panel" id="langPanel" role="menu">
+        <button type="button" data-lang="fi">Suomi</button>
+        <button type="button" data-lang="en">English</button>
+    </div>
+
+    <a href="https://wa.me/358414989087" target="_blank" rel="noopener noreferrer" class="fixed z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:scale-105 right-4 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] md:bottom-8" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp text-[28px] leading-none"></i>
+    </a>
+
+    <!-- Mobiili: Etusivu | Yhteys | Tili — scrollissa vain ikonit -->
+    <nav class="bottom-nav md:hidden" aria-label="Pikavalikko">
+        <a href="#home" data-nav="home" aria-label="Etusivu"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="nav-label">Etusivu</span></a>
+        <a href="#contact" data-nav="contact" aria-label="Yhteystiedot"><i class="fa-solid fa-phone" aria-hidden="true"></i><span class="nav-label">Yhteys</span></a>
+        <a href="#account" data-nav="account" aria-label="Tili"><i class="fa-solid fa-user" aria-hidden="true"></i><span class="nav-label">Tili</span></a>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        (function () {
+            /* Stripe Payment Link (tyhjä = nappi pysyy #payment) — korvaa omalla buy.stripe.com -osoitteella */
+            var STRIPE_PAYMENT_LINK = '';
+
+            var reduceMotion = typeof window.matchMedia === 'function' &&
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            var heroSwiper = new Swiper('.mySwiper', {
+                loop: true,
+                speed: 600,
+                pagination: { el: '.mySwiper .swiper-pagination', clickable: true },
+                navigation: {
+                    nextEl: '.mySwiper .swiper-button-next',
+                    prevEl: '.mySwiper .swiper-button-prev'
+                },
+                autoplay: reduceMotion ? false : {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true
+                },
+                grabCursor: true
+            });
+
+            var galleryEl = document.querySelector('.gallerySwiper');
+            if (galleryEl) {
+                new Swiper('.gallerySwiper', {
+                    loop: true,
+                    speed: 500,
+                    pagination: { el: '.gallerySwiper .swiper-pagination', clickable: true },
+                    navigation: {
+                        nextEl: '.gallerySwiper .swiper-button-next',
+                        prevEl: '.gallerySwiper .swiper-button-prev'
+                    },
+                    autoplay: reduceMotion ? false : { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true },
+                    grabCursor: true
+                });
+            }
+
+            var stripeBtn = document.getElementById('stripePayBtn');
+            if (stripeBtn && STRIPE_PAYMENT_LINK) {
+                stripeBtn.href = STRIPE_PAYMENT_LINK;
+                stripeBtn.target = '_blank';
+                stripeBtn.rel = 'noopener noreferrer';
+            }
+
+            var menuBtn = document.getElementById('menuBtn');
+            var closeBtn = document.getElementById('closeBtn');
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                var open = sidebar.classList.contains('active');
+                document.body.style.overflow = open ? 'hidden' : '';
+                if (menuBtn) {
+                    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                }
+            }
+            menuBtn.addEventListener('click', toggleMenu);
+            closeBtn.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+            document.querySelectorAll('.sidebar-link').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            var searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        var q = searchInput.value.trim();
+                        if (q) window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent('SkootteriKeskus ' + q);
+                    }
+                });
+            }
+
+            var langToggle = document.getElementById('langToggle');
+            var langPanel = document.getElementById('langPanel');
+            var langLabel = document.getElementById('langLabel');
+            function closeLang() {
+                langPanel.classList.remove('open');
+                langToggle.setAttribute('aria-expanded', 'false');
+            }
+            function toggleLang(e) {
+                if (e) e.stopPropagation();
+                langPanel.classList.toggle('open');
+                langToggle.setAttribute('aria-expanded', langPanel.classList.contains('open'));
+            }
+            langToggle.addEventListener('click', toggleLang);
+            langToggle.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLang(e);
+                }
+            });
+            document.addEventListener('click', closeLang);
+            langPanel.addEventListener('click', function (e) { e.stopPropagation(); });
+            langPanel.querySelectorAll('button[data-lang]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var lang = btn.getAttribute('data-lang');
+                    langLabel.textContent = lang === 'fi' ? 'Suomi' : 'English';
+                    document.documentElement.lang = lang === 'fi' ? 'fi' : 'en';
+                    closeLang();
+                });
+            });
+
+            function setNavCompact() {
+                document.body.classList.toggle('nav-compact', window.scrollY > 72);
+            }
+            window.addEventListener('scroll', setNavCompact, { passive: true });
+            setNavCompact();
+
+            var navLinks = document.querySelectorAll('.bottom-nav a');
+            var spy = [
+                { id: 'home', nav: 'home' },
+                { id: 'deals', nav: 'home' },
+                { id: 'lifestyle-gallery', nav: 'home' },
+                { id: 'categories', nav: 'home' },
+                { id: 'showroom', nav: 'home' },
+                { id: 'payment', nav: 'home' },
+                { id: 'contact', nav: 'contact' },
+                { id: 'account', nav: 'account' }
+            ];
+            function updateBottomNav() {
+                var y = window.scrollY + window.innerHeight * 0.25;
+                var active = 'home';
+                spy.forEach(function (row) {
+                    var el = document.getElementById(row.id);
+                    if (el && el.offsetTop <= y) active = row.nav;
+                });
+                if (window.scrollY < 48) active = 'home';
+                navLinks.forEach(function (a) {
+                    a.classList.toggle('active', a.getAttribute('data-nav') === active);
+                });
+            }
+            window.addEventListener('scroll', updateBottomNav, { passive: true });
+            window.addEventListener('resize', updateBottomNav);
+            updateBottomNav();
+        })();
+    </script>
+</body>
+</html>
