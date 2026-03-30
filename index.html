@@ -21,7 +21,13 @@
             --sk-yellow-hover: #fde047;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 5.75rem;
+        }
+        @media (min-width: 768px) {
+            html { scroll-padding-top: 6.5rem; }
+        }
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
         }
@@ -125,6 +131,17 @@
         }
         .swiper-hero .swiper-button-next::after,
         .swiper-hero .swiper-button-prev::after { font-size: 1.1rem; font-weight: 900; }
+        @media (pointer: coarse) {
+            .swiper-hero .swiper-button-next,
+            .swiper-hero .swiper-button-prev {
+                width: 44px; height: 44px;
+                margin-top: 0; top: 50%; transform: translateY(-50%);
+            }
+            .swiper-gallery .swiper-button-next,
+            .swiper-gallery .swiper-button-prev {
+                width: 44px; height: 44px;
+            }
+        }
 
         /* Category cards */
         .cat-card {
@@ -414,22 +431,22 @@
 
     <div id="overlay" class="overlay fixed inset-0 z-[55]"></div>
 
-    <header id="home">
-        <div class="bg-slate-900 text-slate-300 text-[10px] md:text-xs py-2 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2">
-            <div class="flex items-center gap-3 md:gap-4">
-                <a href="https://maps.google.com/?q=Resiinakuja+3,+00520+Helsinki" target="_blank" rel="noopener" class="flex items-center hover:text-white transition">
-                    <i class="fa-solid fa-location-dot text-blue-500 mr-2"></i> Resiinakuja 3, Helsinki
+    <header id="home" class="pt-[env(safe-area-inset-top,0px)]">
+        <div class="bg-slate-900 text-slate-300 text-[10px] md:text-xs py-2 px-4 md:px-6 flex flex-col min-[400px]:flex-row flex-wrap min-[400px]:justify-between min-[400px]:items-center gap-2 text-center min-[400px]:text-left">
+            <div class="flex flex-col min-[480px]:flex-row items-center justify-center min-[480px]:justify-start gap-2 md:gap-4">
+                <a href="https://maps.google.com/?q=Resiinakuja+3,+00520+Helsinki" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-1 hover:text-white transition rounded-lg">
+                    <i class="fa-solid fa-location-dot text-blue-500 shrink-0" aria-hidden="true"></i><span>Resiinakuja 3, Helsinki</span>
                 </a>
-                <a href="mailto:skootterikeskus@gmail.com" class="hidden md:flex items-center hover:text-white transition">
-                    <i class="fa-solid fa-envelope text-blue-500 mr-2"></i> skootterikeskus@gmail.com
+                <a href="mailto:skootterikeskus@gmail.com" class="hidden md:inline-flex items-center gap-2 hover:text-white transition">
+                    <i class="fa-solid fa-envelope text-blue-500" aria-hidden="true"></i> skootterikeskus@gmail.com
                 </a>
             </div>
-            <a href="tel:+358414989087" class="font-bold text-white flex items-center hover:text-blue-300 transition">
-                <i class="fa-solid fa-phone text-blue-500 mr-2"></i> +358 41 498 9087
+            <a href="tel:+358414989087" class="font-bold text-white inline-flex items-center justify-center gap-2 min-h-[44px] px-2 hover:text-blue-300 transition rounded-lg whitespace-nowrap">
+                <i class="fa-solid fa-phone text-blue-500 shrink-0" aria-hidden="true"></i> +358 41 498 9087
             </a>
         </div>
 
-        <nav class="nav-glass sticky top-0 z-50 px-4 md:px-10 py-3 flex justify-between items-center shadow-sm">
+        <nav class="nav-glass sticky top-0 z-50 px-4 md:px-10 py-3 flex justify-between items-center gap-2 shadow-sm">
             <div class="flex items-center gap-3">
                 <button type="button" id="menuBtn" class="md:hidden text-2xl text-slate-800 tap-44 -ml-2 rounded-xl flex items-center justify-center" aria-label="Menu" aria-controls="sidebar" aria-expanded="false"><i class="fa-solid fa-bars-staggered" aria-hidden="true"></i></button>
                 <a href="#home" class="text-lg md:text-2xl font-black text-slate-900 uppercase tracking-tighter">
@@ -448,21 +465,21 @@
                     <input type="search" id="searchInput" placeholder="Haku..." class="bg-slate-100 rounded-full pl-4 pr-10 py-2 text-sm w-44 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30">
                     <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-slate-400 pointer-events-none"></i>
                 </div>
-                <a href="#account" class="text-slate-700 hover:text-blue-600" aria-label="Tili"><i class="fa-solid fa-user text-xl"></i></a>
-                <a href="#deals" class="relative text-slate-800 hover:text-blue-600" aria-label="Ostoskori">
-                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                <a href="#account" class="text-slate-700 hover:text-blue-600 tap-44 inline-flex items-center justify-center rounded-xl hover:bg-slate-100/80 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" aria-label="Tili"><i class="fa-solid fa-user text-xl" aria-hidden="true"></i></a>
+                <a href="#deals" class="relative text-slate-800 hover:text-blue-600 tap-44 inline-flex items-center justify-center rounded-xl hover:bg-slate-100/80 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" aria-label="Ostoskori">
+                    <i class="fa-solid fa-cart-shopping text-xl" aria-hidden="true"></i>
                     <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-black rounded-full h-5 min-w-[1.25rem] px-0.5 flex items-center justify-center">0</span>
                 </a>
             </div>
         </nav>
     </header>
 
-    <aside id="sidebar" class="mobile-menu fixed top-0 left-0 w-[280px] h-full bg-white z-[60] shadow-2xl">
-        <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
+    <aside id="sidebar" class="mobile-menu fixed top-0 left-0 w-[min(280px,92vw)] h-full max-h-[100dvh] bg-white z-[60] shadow-2xl flex flex-col pt-[env(safe-area-inset-top,0px)]" aria-hidden="true">
+        <div class="bg-slate-900 p-6 text-white flex justify-between items-center shrink-0">
             <span class="font-black text-lg">Valikko</span>
             <button type="button" id="closeBtn" class="text-2xl p-2 tap-44 rounded-lg flex items-center justify-center" aria-label="Sulje"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
         </div>
-        <nav class="p-6">
+        <nav class="p-6 overflow-y-auto overscroll-contain flex-1 min-h-0">
             <ul class="space-y-1 font-bold text-slate-800">
                 <li><a href="#home" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-house text-blue-600 w-6 text-center"></i> Etusivu</a></li>
                 <li><a href="#categories" class="sidebar-link flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50"><i class="fa-solid fa-layer-group text-blue-600 w-6 text-center"></i> Kategoriat</a></li>
@@ -564,8 +581,8 @@
     <!-- Tuotteet ensin: hinta & osto ylhäällä, kuva alhaalla -->
     <section id="deals" class="py-12 px-4 md:px-8 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-2xl font-black mb-1 text-slate-900 uppercase">Tuotteet / Tarjoukset</h2>
-            <p class="text-slate-600 text-sm mb-8">Hinta ja tilaus ylhäällä — tuotekuva kortin alaosassa.</p>
+            <h2 class="text-2xl font-black mb-1 text-slate-900 uppercase text-center md:text-left">Tuotteet / Tarjoukset</h2>
+            <p class="text-slate-600 text-sm mb-8 text-center md:text-left max-w-2xl md:max-w-none mx-auto md:mx-0">Hinta ja tilaus ylhäällä — tuotekuva kortin alaosassa.</p>
             <div class="snap-row md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible gap-6 pb-2">
                 <article class="huippu-card w-[min(88vw,300px)] md:w-auto">
                     <div class="huippu-card-body">
@@ -718,12 +735,10 @@
             <div class="h-1 w-24 mx-auto mb-8 rounded-full bg-gradient-to-r from-blue-600 to-violet-600"></div>
             <div class="showroom-wrap shadow-xl">
                 <img src="./assets/service-workshop.png" alt="Huolto ja palvelu" width="900" height="600" loading="lazy">
-                <div class="showroom-overlay text-left">
+                <div class="showroom-overlay text-center md:text-left items-center md:items-stretch">
                     <p class="text-2xl md:text-3xl font-black">Palvelu &amp; huolto</p>
                     <p class="text-lg font-semibold text-white/95 mt-1">Resiinakuja 3, 00520 Helsinki</p>
-                    <a href="tel:+358414989087" class="inline-block mt-4 px-4 py-2 border-2 border-white rounded-lg font-bold text-sm hover:bg-white hover:text-slate-900 transition">
-                        Arkisin 10.00–18.00 · +358 41 498 9087
-                    </a>
+                    <a href="tel:+358414989087" class="inline-flex mt-4 px-4 py-3 min-h-[44px] border-2 border-white rounded-lg font-bold text-sm hover:bg-white hover:text-slate-900 transition btn-product-cta max-w-full text-center">Arkisin 10.00–18.00 · +358 41 498 9087</a>
                 </div>
             </div>
         </div>
@@ -763,9 +778,14 @@
                         <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Maksa / sovi WhatsApp
                     </a>
                 </div>
-                <p class="text-slate-500 text-xs mt-6 text-left max-w-xl mx-auto">
-                    <strong>Kehittäjille:</strong> aseta <code class="bg-slate-100 px-1 rounded text-[11px]">STRIPE_PAYMENT_LINK</code> skriptin alussa omaan Stripe Payment Link -osoitteeseen (esim. <code class="text-[11px]">buy.stripe.com/...</code>). Tyhjä linkki ohjaa tähän osioon — ei virhettä.
-                </p>
+                <details class="mt-6 max-w-xl mx-auto text-left border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="text-slate-500 text-xs cursor-pointer px-4 py-3 bg-slate-50 hover:bg-slate-100 font-semibold list-none flex items-center gap-2 [&::-webkit-details-marker]:hidden">
+                        <i class="fa-solid fa-code text-slate-400" aria-hidden="true"></i> Kehittäjille (Stripe)
+                    </summary>
+                    <p class="text-slate-500 text-xs px-4 py-3 bg-white border-t border-slate-100">
+                        Aseta <code class="bg-slate-100 px-1 rounded text-[11px]">STRIPE_PAYMENT_LINK</code> skriptin alussa omaan Stripe Payment Link -osoitteeseen (esim. <code class="text-[11px]">buy.stripe.com/...</code>). Tyhjä linkki ohjaa tähän osioon — ei virhettä.
+                    </p>
+                </details>
             </div>
         </div>
     </section>
@@ -803,29 +823,29 @@
     </section>
 
     <footer class="bg-slate-900 text-white py-12 px-4 md:px-8 border-t-4 border-blue-600 pb-28 md:pb-12">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10">
-            <div>
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-center md:text-left">
+            <div class="flex flex-col items-center md:items-start">
                 <h2 class="text-2xl font-black mb-4 uppercase">Skootteri<span class="text-blue-600 underline decoration-2">Keskus</span></h2>
-                <p class="text-slate-400 text-sm leading-relaxed">Sähköskootterit, sähköpyörät ja varaosat — Helsinki.</p>
+                <p class="text-slate-400 text-sm leading-relaxed max-w-xs md:max-w-none">Sähköskootterit, sähköpyörät ja varaosat — Helsinki.</p>
             </div>
-            <div>
+            <div class="flex flex-col items-center md:items-start">
                 <h4 class="font-bold mb-4 uppercase text-blue-500">Tuki</h4>
-                <ul class="text-slate-400 space-y-2 text-sm">
+                <ul class="text-slate-400 space-y-2 text-sm flex flex-col items-center md:items-start">
                     <li><a href="#contact" class="hover:text-white transition">Toimitus</a></li>
                     <li><a href="#contact" class="hover:text-white transition">Takuu</a></li>
                     <li><a href="#showroom" class="hover:text-white transition">Huolto</a></li>
                     <li><a href="#payment" class="hover:text-white transition">Maksutavat</a></li>
                 </ul>
             </div>
-            <div class="md:col-span-2">
+            <div class="md:col-span-2 flex flex-col items-center md:items-start">
                 <h4 class="font-bold mb-4 uppercase text-blue-500">Yhteystiedot</h4>
-                <p class="text-slate-300 mb-2 font-bold"><i class="fa-solid fa-map-marker-alt mr-2 text-blue-600"></i> Resiinakuja 3, 00520 Helsinki</p>
-                <p class="text-slate-300 mb-2 font-bold"><i class="fa-solid fa-envelope mr-2 text-blue-600"></i> skootterikeskus@gmail.com</p>
-                <div class="flex flex-wrap gap-5 mt-6 text-2xl items-center">
-                    <a href="#" class="inline-flex hover:opacity-90" aria-label="YouTube"><i class="fa-brands fa-youtube social-brand-youtube"></i></a>
-                    <a href="#" class="inline-flex hover:opacity-90" aria-label="Facebook"><i class="fa-brands fa-facebook social-brand-facebook"></i></a>
-                    <a href="#" class="inline-flex hover:opacity-90" aria-label="Instagram"><i class="fa-brands fa-instagram social-brand-instagram"></i></a>
-                    <a href="#" class="inline-flex hover:opacity-90" aria-label="Messenger"><i class="fa-brands fa-facebook-messenger social-brand-messenger"></i></a>
+                <p class="text-slate-300 mb-2 font-bold flex flex-wrap justify-center md:justify-start items-center gap-x-2 gap-y-1"><i class="fa-solid fa-map-marker-alt text-blue-600 shrink-0" aria-hidden="true"></i><span>Resiinakuja 3, 00520 Helsinki</span></p>
+                <p class="text-slate-300 mb-2 font-bold flex flex-wrap justify-center md:justify-start items-center gap-x-2 gap-y-1 break-all md:break-normal"><i class="fa-solid fa-envelope text-blue-600 shrink-0" aria-hidden="true"></i><span>skootterikeskus@gmail.com</span></p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-6 sm:gap-7 mt-6 text-[1.65rem] sm:text-2xl items-center w-full" aria-label="Sosiaalinen media">
+                    <a href="https://www.youtube.com/results?search_query=SkootteriKeskus+Helsinki" target="_blank" rel="noopener noreferrer" class="inline-flex min-w-[44px] min-h-[44px] items-center justify-center rounded-xl hover:opacity-90 hover:bg-white/5 transition tap-44 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" aria-label="YouTube" title="YouTube — korvaa omalla kanavalinkillä"><i class="fa-brands fa-youtube social-brand-youtube" aria-hidden="true"></i></a>
+                    <a href="https://www.facebook.com/search/top/?q=SkootteriKeskus" target="_blank" rel="noopener noreferrer" class="inline-flex min-w-[44px] min-h-[44px] items-center justify-center rounded-xl hover:opacity-90 hover:bg-white/5 transition tap-44 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" aria-label="Facebook" title="Facebook — korvaa omalla sivulinkillä"><i class="fa-brands fa-facebook social-brand-facebook" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/explore/tags/skootterikeskus/" target="_blank" rel="noopener noreferrer" class="inline-flex min-w-[44px] min-h-[44px] items-center justify-center rounded-xl hover:opacity-90 hover:bg-white/5 transition tap-44 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" aria-label="Instagram" title="Instagram — korvaa omalla profiililinkillä"><i class="fa-brands fa-instagram social-brand-instagram" aria-hidden="true"></i></a>
+                    <a href="#contact" class="inline-flex min-w-[44px] min-h-[44px] items-center justify-center rounded-xl hover:opacity-90 hover:bg-white/5 transition tap-44 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" aria-label="Messenger — yhteystiedot" title="Messenger: lisää m.me-linkki tai käytä yhteystietoja"><i class="fa-brands fa-facebook-messenger social-brand-messenger" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -908,30 +928,35 @@
             var overlay = document.getElementById('overlay');
 
             function toggleMenu() {
+                if (!sidebar || !overlay) return;
                 sidebar.classList.toggle('active');
                 overlay.classList.toggle('active');
                 var open = sidebar.classList.contains('active');
                 document.body.style.overflow = open ? 'hidden' : '';
+                sidebar.setAttribute('aria-hidden', open ? 'false' : 'true');
                 if (menuBtn) {
                     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
                 }
             }
-            menuBtn.addEventListener('click', toggleMenu);
-            closeBtn.addEventListener('click', toggleMenu);
-            overlay.addEventListener('click', toggleMenu);
+            if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if (overlay) overlay.addEventListener('click', toggleMenu);
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+                if (e.key === 'Escape' && sidebar && sidebar.classList.contains('active')) {
                     sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
+                    if (overlay) overlay.classList.remove('active');
                     document.body.style.overflow = '';
+                    sidebar.setAttribute('aria-hidden', 'true');
                     if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
                 }
             });
             document.querySelectorAll('.sidebar-link').forEach(function (a) {
                 a.addEventListener('click', function () {
+                    if (!sidebar || !overlay) return;
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
                     document.body.style.overflow = '';
+                    sidebar.setAttribute('aria-hidden', 'true');
                     if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
                 });
             });
@@ -951,31 +976,37 @@
             var langPanel = document.getElementById('langPanel');
             var langLabel = document.getElementById('langLabel');
             function closeLang() {
+                if (!langPanel || !langToggle) return;
                 langPanel.classList.remove('open');
                 langToggle.setAttribute('aria-expanded', 'false');
             }
             function toggleLang(e) {
+                if (!langPanel || !langToggle) return;
                 if (e) e.stopPropagation();
                 langPanel.classList.toggle('open');
                 langToggle.setAttribute('aria-expanded', langPanel.classList.contains('open'));
             }
-            langToggle.addEventListener('click', toggleLang);
-            langToggle.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleLang(e);
-                }
-            });
-            document.addEventListener('click', closeLang);
-            langPanel.addEventListener('click', function (e) { e.stopPropagation(); });
-            langPanel.querySelectorAll('button[data-lang]').forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    var lang = btn.getAttribute('data-lang');
-                    langLabel.textContent = lang === 'fi' ? 'Suomi' : 'English';
-                    document.documentElement.lang = lang === 'fi' ? 'fi' : 'en';
-                    closeLang();
+            if (langToggle) {
+                langToggle.addEventListener('click', toggleLang);
+                langToggle.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleLang(e);
+                    }
                 });
-            });
+            }
+            document.addEventListener('click', closeLang);
+            if (langPanel) {
+                langPanel.addEventListener('click', function (e) { e.stopPropagation(); });
+                langPanel.querySelectorAll('button[data-lang]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var lang = btn.getAttribute('data-lang');
+                        if (langLabel) langLabel.textContent = lang === 'fi' ? 'Suomi' : 'English';
+                        document.documentElement.lang = lang === 'fi' ? 'fi' : 'en';
+                        closeLang();
+                    });
+                });
+            }
 
             function setNavCompact() {
                 document.body.classList.toggle('nav-compact', window.scrollY > 72);
