@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="SkootteriKeskus — sähköpyörät, fatbike, varaosat ja huolto Helsinki. Maksutavat: kortit, MobilePay, kansainväliset palvelut.">
     <meta name="theme-color" content="#0f172a">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https:; frame-ancestors 'none'; upgrade-insecure-requests">
     <meta name="format-detection" content="telephone=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -63,7 +64,6 @@
         .overlay { display: none; background: rgba(0,0,0,0.5); }
         .overlay.active { display: block; }
 
-        /* Hero Swiper — mobiili: ei liian korkea pienillä näytöillä */
         .swiper-hero {
             width: 100%;
             height: min(78vh, 820px);
@@ -143,7 +143,6 @@
             }
         }
 
-        /* Category cards */
         .cat-card {
             border-radius: 1.25rem;
             overflow: hidden;
@@ -180,7 +179,6 @@
         }
         .btn-tutustu:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(250, 204, 21, 0.35); }
 
-        /* Product card: hinta & osto ylhäällä, kuva alhaalla */
         .huippu-card {
             background: #fff;
             border-radius: 15px;
@@ -221,7 +219,6 @@
             margin-left: 6px;
         }
 
-        /* Lifestyle gallery (below product boxes) */
         .swiper-gallery {
             width: 100%;
             border-radius: 1rem;
@@ -272,7 +269,6 @@
             color: #fff;
         }
 
-        /* Mobile bottom nav — labels hide when scrolled (icons only) */
         .bottom-nav {
             position: fixed;
             left: 0; right: 0; bottom: 0;
@@ -393,7 +389,6 @@
         }
         .snap-row > * { scroll-snap-align: start; flex-shrink: 0; }
 
-        /* Maksutavat — luottamusnauha */
         .payment-strip {
             display: flex;
             flex-wrap: wrap;
@@ -416,8 +411,108 @@
             color: #334155;
         }
         .payment-badge i { font-size: 1.1rem; opacity: 0.9; }
+        .invoice-method {
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            color: #0f172a;
+            min-height: 48px;
+            border-radius: 12px;
+            padding: 0.65rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .invoice-method:hover { border-color: #93c5fd; background: #eff6ff; }
+        .invoice-method.active {
+            border-color: #2563eb;
+            background: #dbeafe;
+            color: #1e3a8a;
+            box-shadow: inset 0 0 0 1px #2563eb;
+        }
+        .payment-block {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #f8fafc;
+            padding: 1rem;
+        }
+        .invoice-input {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 0.65rem 0.8rem;
+            font-size: 0.9rem;
+            color: #0f172a;
+            background: #fff;
+        }
+        .invoice-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        .invoice-row { border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.35rem; margin-bottom: 0.35rem; }
+        .trust-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.9rem;
+        }
+        .trust-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            border-radius: 9999px;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.7rem;
+            color: #334155;
+            font-weight: 700;
+        }
+        .trust-pill--stripe {
+            border-color: #5a52e5;
+            background: #635BFF;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+        .mobilepay-brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 4.5rem;
+            padding: 0.2rem 0.45rem;
+            border-radius: 6px;
+            background: linear-gradient(180deg, #00b4f0 0%, #0078c8 100%);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+        }
+        #downloadInvoiceBtn { display: none; }
+        #downloadInvoiceBtn.is-visible { display: inline-flex; }
 
-        /* Isommat kosketusalueet mobiilissa */
+        @media (max-width: 639px) {
+            #invoicePreview .invoice-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.15rem;
+            }
+            #invoicePreview .invoice-row > span:last-child {
+                text-align: left;
+                width: 100%;
+                word-break: break-word;
+            }
+        }
+        @media (max-width: 360px) {
+            .invoice-method { font-size: 0.68rem; padding: 0.5rem 0.4rem; min-height: 46px; }
+        }
+
         .tap-44 { min-height: 44px; min-width: 44px; }
         .btn-product-cta {
             min-height: 44px;
@@ -492,7 +587,6 @@
         </nav>
     </aside>
 
-    <!-- Hero: vain uudet kuvat -->
     <div class="swiper swiper-hero mySwiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide" style="background-image:url('./assets/hero-snow-fatbike.png')">
@@ -578,7 +672,6 @@
         <div class="swiper-pagination"></div>
     </div>
 
-    <!-- Tuotteet ensin: hinta & osto ylhäällä, kuva alhaalla -->
     <section id="deals" class="py-12 px-4 md:px-8 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-2xl font-black mb-1 text-slate-900 uppercase text-center md:text-left">Tuotteet / Tarjoukset</h2>
@@ -645,7 +738,6 @@
         </div>
     </section>
 
-    <!-- Kuvagalleria: kaikki uudet kuvat tuotteiden alla -->
     <section id="lifestyle-gallery" class="py-12 px-4 md:px-8 bg-white">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-2xl font-black text-slate-900 uppercase mb-1 text-center">Kuvat &amp; elämäntapa</h2>
@@ -744,39 +836,85 @@
         </div>
     </section>
 
-    <!-- Suomi / EU — kansainväliset maksutavat (luottamus + Stripe-linkki valinnainen) -->
     <section id="payment" class="py-12 px-4 md:px-8 bg-slate-50 border-y border-slate-200">
         <div class="max-w-4xl mx-auto">
             <h2 class="text-2xl font-black text-slate-900 uppercase text-center mb-2">Maksutavat</h2>
-            <p class="text-slate-600 text-sm text-center mb-8 max-w-2xl mx-auto">
-                Suomessa ja EU:ssa yleiset tavat: pankki- ja luottokortit, MobilePay, lasku- ja erämaksu (Klarna), sekä digitaaliset lompakot.
-                Verkkokaupan kassa voidaan kytkeä <strong>Stripeen</strong> tai <strong>PayPaliin</strong> — molemmat tukevat suomalaisia ja kansainvälisiä maksuja (SEPA, kortit, Apple Pay, Google Pay).
+            <p class="text-slate-600 text-sm text-center mb-6 max-w-xl mx-auto">
+                <strong>Kortit, MobilePay, Apple/Google Pay</strong> — turvallisesti Stripe/PayPal-kassalla.<br>
+                <span class="text-slate-500">ALV 25,5 % lasketaan automaattisesti laskulla.</span>
             </p>
-            <div class="payment-strip mb-8" role="list" aria-label="Hyväksytyt maksutavat">
-                <span class="payment-badge" role="listitem"><i class="fa-brands fa-cc-visa text-blue-800"></i> Visa</span>
-                <span class="payment-badge" role="listitem"><i class="fa-brands fa-cc-mastercard text-red-600"></i> Mastercard</span>
-                <span class="payment-badge" role="listitem"><i class="fa-solid fa-credit-card text-slate-700"></i> Eurocard</span>
-                <span class="payment-badge" role="listitem"><i class="fa-brands fa-apple text-slate-900"></i> Apple Pay</span>
-                <span class="payment-badge" role="listitem"><i class="fa-brands fa-google text-slate-700"></i> Google Pay</span>
-                <span class="payment-badge" role="listitem"><i class="fa-brands fa-paypal text-blue-600"></i> PayPal</span>
-                <span class="payment-badge" role="listitem"><i class="fa-solid fa-mobile-screen text-emerald-600"></i> MobilePay</span>
-                <span class="payment-badge" role="listitem"><i class="fa-solid fa-receipt text-violet-600"></i> Klarna</span>
-            </div>
             <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm text-center">
-                <p class="text-slate-700 text-sm mb-4">
+                <p class="text-slate-700 text-xs md:text-sm mb-4 max-w-lg mx-auto text-left md:text-center">
                     <i class="fa-solid fa-lock text-green-600 mr-1" aria-hidden="true"></i>
-                    Tilausvahvistus ja maksuohjeet: <strong>WhatsApp</strong>, <strong>puhelin</strong> tai sähköposti. Verkkomaksulinkki avautuu, kun Stripe Payment Link on kytketty (katso koodi).
+                    Tilausvahvistus: <strong>puhelin</strong> tai <strong>sähköposti</strong>. Stripe-linkki aktivoidaan kaupassa.
                 </p>
-                <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
-                    <a id="stripePayBtn" href="#payment" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-[#635BFF] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta" rel="noopener">
-                        <i class="fa-brands fa-stripe" aria-hidden="true"></i> Maksa Stripe-linkillä
-                    </a>
-                    <a href="https://www.paypal.com/fi/home" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-[#0070ba] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta">
-                        <i class="fa-brands fa-paypal" aria-hidden="true"></i> PayPal (FI)
-                    </a>
-                    <a href="https://wa.me/358414989087?text=Maksu%20/%20tilaus%20SkootteriKeskus" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-full bg-[#25D366] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta">
-                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Maksa / sovi WhatsApp
-                    </a>
+                <div class="payment-block text-left">
+                    <h3 class="text-sm font-black uppercase text-slate-800 mb-2">Pika-osto</h3>
+                    <p class="text-xs text-slate-600 mb-4">Ensisijainen maksu: Stripe tai PayPal. WhatsApp vain yhteydenottoon.</p>
+                    <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-stretch">
+                        <a id="stripePayBtn" href="#payment" class="inline-flex flex-1 sm:flex-[2] items-center justify-center gap-2 min-h-[48px] px-6 py-3.5 rounded-full bg-[#635BFF] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta shadow-md shadow-indigo-500/25 ring-2 ring-indigo-500/30" rel="noopener">
+                            <i class="fa-brands fa-stripe text-lg" aria-hidden="true"></i> Maksa Stripe-linkillä
+                        </a>
+                        <a href="https://www.paypal.com/fi/home" target="_blank" rel="noopener noreferrer" class="inline-flex flex-1 sm:flex-[2] items-center justify-center gap-2 min-h-[48px] px-6 py-3.5 rounded-full bg-[#0070ba] text-white text-sm font-bold hover:opacity-95 transition btn-product-cta shadow-md shadow-sky-700/20">
+                            <i class="fa-brands fa-paypal text-lg" aria-hidden="true"></i> PayPal (FI)
+                        </a>
+                        <a href="https://wa.me/358414989087?text=Tilaus%20/%20kysymys%20SkootteriKeskus" target="_blank" rel="noopener" class="inline-flex flex-1 items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-full border-2 border-slate-300 bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-slate-50 transition">
+                            <i class="fa-brands fa-whatsapp text-emerald-600" aria-hidden="true"></i> Ota yhteyttä WhatsAppilla
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-7 text-left">
+                    <h3 class="text-base md:text-lg font-black text-slate-900 mb-3 uppercase">Payment &amp; Invoice</h3>
+                    <p class="text-slate-600 text-sm mb-4">Valitse maksutapa, täytä yhteystiedot ja vahvista maksu. Laskun PDF tulee näkyviin vain onnistuneen maksun jälkeen (demo).</p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5" id="invoiceMethods" role="group" aria-label="Invoice payment method">
+                        <button type="button" class="invoice-method active" data-method="Visa" aria-pressed="true"><i class="fa-brands fa-cc-visa text-blue-700"></i> Visa</button>
+                        <button type="button" class="invoice-method" data-method="Mastercard" aria-pressed="false"><i class="fa-brands fa-cc-mastercard text-red-600"></i> Mastercard</button>
+                        <button type="button" class="invoice-method" data-method="Apple Pay" aria-pressed="false"><i class="fa-brands fa-apple"></i> Apple Pay</button>
+                        <button type="button" class="invoice-method" data-method="Google Pay" aria-pressed="false"><i class="fa-brands fa-google"></i> Google Pay</button>
+                        <button type="button" class="invoice-method" data-method="PayPal" aria-pressed="false"><i class="fa-brands fa-paypal text-[#0070ba]"></i> PayPal</button>
+                        <button type="button" class="invoice-method" data-method="MobilePay" aria-pressed="false"><span class="mobilepay-brand">MobilePay</span></button>
+                        <button type="button" class="invoice-method" data-method="Klarna" aria-pressed="false"><i class="fa-solid fa-receipt text-violet-600"></i> Klarna</button>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-3 mb-4">
+                        <input id="invCustomerName" type="text" class="invoice-input" placeholder="Customer Name" autocomplete="name">
+                        <input id="invCustomerEmail" type="email" class="invoice-input" placeholder="Customer Email" autocomplete="email">
+                        <input id="invProduct" type="text" class="invoice-input md:col-span-2" placeholder="Product / Service Name" autocomplete="off">
+                        <div class="md:col-span-2">
+                            <label for="invGrossTotal" class="block text-xs font-bold text-slate-600 mb-1">Hinta <span class="text-slate-500 font-semibold">(sis. ALV 25,5 %)</span></label>
+                            <input id="invGrossTotal" type="number" min="0" step="0.01" class="invoice-input" placeholder="Esim. 125,50" inputmode="decimal" autocomplete="off">
+                            <p class="text-[11px] text-slate-500 mt-1">ALV eritellään laskulla automaattisesti — ei tarvitse syöttää prosenttia.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button type="button" id="processPaymentBtn" class="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-3 rounded-full bg-slate-900 text-white text-sm font-bold hover:bg-blue-600 transition btn-product-cta">
+                            <i class="fa-solid fa-bolt"></i> Process Payment
+                        </button>
+                        <button type="button" id="downloadInvoiceBtn" class="items-center justify-center gap-2 min-h-[44px] px-5 py-3 rounded-full bg-emerald-600 text-white text-sm font-bold hover:bg-emerald-700 transition btn-product-cta" disabled>
+                            <i class="fa-solid fa-file-pdf"></i> Lataa PDF-lasku
+                        </button>
+                    </div>
+                    <p id="invoiceStatus" class="text-xs text-slate-500 mt-3">Status: Ready</p>
+                    <div class="trust-strip" aria-label="Payment trust badges">
+                        <span class="trust-pill"><i class="fa-solid fa-shield-halved text-emerald-600" aria-hidden="true"></i> Secure payment flow</span>
+                        <span class="trust-pill trust-pill--stripe"><i class="fa-brands fa-stripe" aria-hidden="true"></i> Powered by Stripe</span>
+                        <span class="trust-pill"><i class="fa-brands fa-cc-visa text-blue-700" aria-hidden="true"></i> Verified by Visa</span>
+                        <span class="trust-pill"><i class="fa-brands fa-cc-mastercard text-red-600" aria-hidden="true"></i> Mastercard Secure</span>
+                    </div>
+
+                    <div id="invoicePreview" class="mt-4 p-4 rounded-xl border border-slate-200 bg-slate-50 text-sm hidden">
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Invoice No.</span><span id="prevNumber" class="font-bold text-slate-800"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Date</span><span id="prevDate" class="font-bold text-slate-800"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Customer</span><span id="prevCustomer" class="font-bold text-slate-800 text-right"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Email</span><span id="prevEmail" class="font-bold text-slate-800 text-right"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Item</span><span id="prevItem" class="font-bold text-slate-800 text-right"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Method</span><span id="prevMethod" class="font-bold text-slate-800"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">Veroton (ilman ALV)</span><span id="prevSubtotal" class="font-bold text-slate-800"></span></div>
+                        <div class="invoice-row flex justify-between gap-4"><span class="text-slate-500">ALV (25,5 %)</span><span id="prevTaxAmount" class="font-bold text-slate-800"></span></div>
+                        <div class="flex justify-between gap-4 pt-1"><span class="text-slate-900 font-black">Yhteensä (sis. ALV)</span><span id="prevTotal" class="font-black text-emerald-700"></span></div>
+                    </div>
                 </div>
                 <details class="mt-6 max-w-xl mx-auto text-left border border-slate-100 rounded-xl overflow-hidden">
                     <summary class="text-slate-500 text-xs cursor-pointer px-4 py-3 bg-slate-50 hover:bg-slate-100 font-semibold list-none flex items-center gap-2 [&::-webkit-details-marker]:hidden">
@@ -822,6 +960,26 @@
         </div>
     </section>
 
+    <section id="privacy" class="py-10 px-4 md:px-8 bg-white border-t border-slate-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-xl md:text-2xl font-black uppercase text-slate-900 mb-3">Privacy &amp; Security</h2>
+            <p class="text-slate-600 text-sm max-w-2xl mx-auto">
+                Maksut käsitellään turvallisten palveluntarjoajien kautta. Emme tallenna kortin numeroa tai CVV-tietoja.
+                GDPR-oikeudet: tietopyyntö, korjaus ja poisto — ota yhteyttä sähköpostilla.
+            </p>
+            <div class="flex flex-wrap justify-center gap-3 mt-5 text-sm font-bold">
+                <a href="./privacy-policy.html" class="text-blue-600 hover:underline">Privacy Policy</a>
+                <span class="text-slate-300" aria-hidden="true">|</span>
+                <a href="./terms-of-service.html" class="text-blue-600 hover:underline">Terms of Service</a>
+                <span class="text-slate-300" aria-hidden="true">|</span>
+                <a href="./refund-policy.html" class="text-blue-600 hover:underline">Refund Policy</a>
+            </div>
+            <a href="mailto:skootterikeskus@gmail.com?subject=GDPR%20Privacy%20Request" class="inline-flex mt-4 items-center justify-center min-h-[44px] px-5 py-3 rounded-full bg-slate-900 text-white text-sm font-bold hover:bg-blue-600 transition">
+                Privacy Request (GDPR)
+            </a>
+        </div>
+    </section>
+
     <footer class="bg-slate-900 text-white py-12 px-4 md:px-8 border-t-4 border-blue-600 pb-28 md:pb-12">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-center md:text-left">
             <div class="flex flex-col items-center md:items-start">
@@ -835,6 +993,9 @@
                     <li><a href="#contact" class="hover:text-white transition">Takuu</a></li>
                     <li><a href="#showroom" class="hover:text-white transition">Huolto</a></li>
                     <li><a href="#payment" class="hover:text-white transition">Maksutavat</a></li>
+                    <li><a href="./privacy-policy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html" class="hover:text-white transition">Terms of Service</a></li>
+                    <li><a href="./refund-policy.html" class="hover:text-white transition">Refund Policy</a></li>
                 </ul>
             </div>
             <div class="md:col-span-2 flex flex-col items-center md:items-start">
@@ -868,7 +1029,6 @@
         <i class="fa-brands fa-whatsapp text-[28px] leading-none"></i>
     </a>
 
-    <!-- Mobiili: Etusivu | Yhteys | Tili — scrollissa vain ikonit -->
     <nav class="bottom-nav md:hidden" aria-label="Pikavalikko">
         <a href="#home" data-nav="home" aria-label="Etusivu"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="nav-label">Etusivu</span></a>
         <a href="#contact" data-nav="contact" aria-label="Yhteystiedot"><i class="fa-solid fa-phone" aria-hidden="true"></i><span class="nav-label">Yhteys</span></a>
@@ -876,9 +1036,9 @@
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         (function () {
-            /* Stripe Payment Link (tyhjä = nappi pysyy #payment) — korvaa omalla buy.stripe.com -osoitteella */
             var STRIPE_PAYMENT_LINK = '';
 
             var reduceMotion = typeof window.matchMedia === 'function' &&
@@ -920,6 +1080,216 @@
                 stripeBtn.href = STRIPE_PAYMENT_LINK;
                 stripeBtn.target = '_blank';
                 stripeBtn.rel = 'noopener noreferrer';
+            }
+
+            if (window.top !== window.self) {
+                window.top.location = window.self.location;
+            }
+
+            var selectedMethod = 'Visa';
+            var paymentComplete = false;
+            var latestInvoice = null;
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            var invalidAttempts = 0;
+            var lockUntil = 0;
+
+            var methodButtons = document.querySelectorAll('.invoice-method');
+            methodButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    methodButtons.forEach(function (b) {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+                    selectedMethod = btn.getAttribute('data-method') || 'Visa';
+                });
+            });
+
+            function euro(value) {
+                return new Intl.NumberFormat('fi-FI', { style: 'currency', currency: 'EUR' }).format(value);
+            }
+
+            var FINNISH_VAT_RATE = 25.5;
+
+            function makeInvoiceData() {
+                var name = (document.getElementById('invCustomerName') || {}).value || '';
+                var email = (document.getElementById('invCustomerEmail') || {}).value || '';
+                var product = (document.getElementById('invProduct') || {}).value || '';
+                var grossRaw = parseFloat(((document.getElementById('invGrossTotal') || {}).value || '0'));
+                var gross = isNaN(grossRaw) ? 0 : Math.round(grossRaw * 100) / 100;
+                var net = gross > 0 ? Math.round((gross / (1 + FINNISH_VAT_RATE / 100)) * 100) / 100 : 0;
+                var taxAmount = gross > 0 ? Math.round((gross - net) * 100) / 100 : 0;
+                return {
+                    invoiceNo: 'SK-' + Date.now().toString().slice(-8),
+                    date: new Date().toLocaleDateString('fi-FI'),
+                    name: name.trim(),
+                    email: email.trim(),
+                    product: product.trim(),
+                    method: selectedMethod,
+                    subtotal: net,
+                    taxPercent: FINNISH_VAT_RATE,
+                    taxAmount: taxAmount,
+                    total: gross
+                };
+            }
+
+            function setStatus(message, ok) {
+                var status = document.getElementById('invoiceStatus');
+                if (!status) return;
+                status.textContent = 'Status: ' + message;
+                status.className = 'text-xs mt-3 ' + (ok ? 'text-emerald-700' : 'text-rose-600');
+            }
+
+            function sanitizeText(value) {
+                return String(value || '')
+                    .replace(/[<>]/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim()
+                    .slice(0, 140);
+            }
+
+            function securityLog(eventName, details) {
+                var payload = {
+                    event: eventName,
+                    details: details || {},
+                    at: new Date().toISOString()
+                };
+                try {
+                    var prev = JSON.parse(localStorage.getItem('sk_security_log') || '[]');
+                    prev.push(payload);
+                    if (prev.length > 60) prev.shift();
+                    localStorage.setItem('sk_security_log', JSON.stringify(prev));
+                } catch (err) {
+                    /* ignore storage errors */
+                }
+            }
+
+            function clearReadyState(message) {
+                paymentComplete = false;
+                latestInvoice = null;
+                var preview = document.getElementById('invoicePreview');
+                if (preview) preview.classList.add('hidden');
+                if (downloadBtn) {
+                    downloadBtn.disabled = true;
+                    downloadBtn.classList.remove('is-visible');
+                }
+                setStatus(message || 'Ready', true);
+            }
+
+            function renderPreview(data) {
+                var preview = document.getElementById('invoicePreview');
+                if (!preview) return;
+                preview.classList.remove('hidden');
+                document.getElementById('prevNumber').textContent = data.invoiceNo;
+                document.getElementById('prevDate').textContent = data.date;
+                document.getElementById('prevCustomer').textContent = data.name;
+                document.getElementById('prevEmail').textContent = data.email;
+                document.getElementById('prevItem').textContent = data.product;
+                document.getElementById('prevMethod').textContent = data.method;
+                document.getElementById('prevSubtotal').textContent = euro(data.subtotal);
+                document.getElementById('prevTaxAmount').textContent = euro(data.taxAmount) + ' (25,5 %)';
+                document.getElementById('prevTotal').textContent = euro(data.total);
+            }
+
+            var processBtn = document.getElementById('processPaymentBtn');
+            var downloadBtn = document.getElementById('downloadInvoiceBtn');
+
+            if (processBtn) {
+                processBtn.addEventListener('click', function () {
+                    if (Date.now() < lockUntil) {
+                        setStatus('Too many invalid attempts. Please wait 5 minutes.', false);
+                        return;
+                    }
+                    var data = makeInvoiceData();
+                    data.name = sanitizeText(data.name);
+                    data.email = sanitizeText(data.email);
+                    data.product = sanitizeText(data.product);
+                    if (!data.name || !data.email || !data.product || data.total <= 0) {
+                        setStatus('Täytä nimi, sähköposti, tuote ja hinta (sis. ALV).', false);
+                        invalidAttempts += 1;
+                        securityLog('invalid_input', { reason: 'missing_required', attempts: invalidAttempts });
+                        if (invalidAttempts >= 5) {
+                            lockUntil = Date.now() + (5 * 60 * 1000);
+                        }
+                        return;
+                    }
+                    if (!emailPattern.test(data.email)) {
+                        setStatus('Enter a valid customer email.', false);
+                        invalidAttempts += 1;
+                        securityLog('invalid_input', { reason: 'invalid_email', attempts: invalidAttempts });
+                        if (invalidAttempts >= 5) {
+                            lockUntil = Date.now() + (5 * 60 * 1000);
+                        }
+                        return;
+                    }
+                    invalidAttempts = 0;
+                    latestInvoice = data;
+                    paymentComplete = true;
+                    renderPreview(data);
+                    setStatus('Payment successful via ' + data.method + ' (simulation).', true);
+                    securityLog('payment_simulated_success', { method: data.method, amount: data.total });
+                    if (downloadBtn) {
+                        downloadBtn.disabled = false;
+                        downloadBtn.classList.add('is-visible');
+                    }
+                });
+            }
+
+            ['invCustomerName', 'invCustomerEmail', 'invProduct', 'invGrossTotal'].forEach(function (id) {
+                var input = document.getElementById(id);
+                if (!input) return;
+                input.addEventListener('input', function () {
+                    clearReadyState('Ready');
+                });
+            });
+
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function () {
+                    if (!paymentComplete || !latestInvoice) {
+                        setStatus('Please process payment first.', false);
+                        return;
+                    }
+                    if (!window.jspdf || !window.jspdf.jsPDF) {
+                        setStatus('PDF library failed to load.', false);
+                        return;
+                    }
+                    var jsPDF = window.jspdf.jsPDF;
+                    var doc = new jsPDF();
+                    var d = latestInvoice;
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(18);
+                    doc.text('SkootteriKeskus Oy', 14, 20);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(11);
+                    doc.text('Resiinakuja 3, 00520 Helsinki', 14, 27);
+                    doc.text('Email: skootterikeskus@gmail.com', 14, 33);
+                    doc.text('Phone: +358 41 498 9087', 14, 39);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(16);
+                    doc.text('INVOICE', 160, 20);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(11);
+                    doc.text('Invoice No: ' + d.invoiceNo, 140, 28);
+                    doc.text('Date: ' + d.date, 140, 34);
+                    doc.line(14, 45, 196, 45);
+                    doc.text('Bill To: ' + d.name, 14, 55);
+                    doc.text('Email: ' + d.email, 14, 61);
+                    doc.text('Item: ' + d.product, 14, 67);
+                    doc.text('Method: ' + d.method, 14, 73);
+                    doc.line(14, 80, 196, 80);
+                    doc.text('Net (excl. VAT): ' + euro(d.subtotal), 14, 90);
+                    doc.text('ALV / VAT (25.5%): ' + euro(d.taxAmount), 14, 97);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('Total (incl. VAT): ' + euro(d.total), 14, 106);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(10);
+                    doc.text('Terms: Payment is due upon receipt. All sales are subject to store policy.', 14, 122);
+                    doc.text('Thank you for your purchase!', 14, 130);
+                    doc.save('invoice-' + d.invoiceNo + '.pdf');
+                    setStatus('Invoice PDF downloaded successfully.', true);
+                    securityLog('invoice_pdf_downloaded', { invoiceNo: d.invoiceNo });
+                });
             }
 
             var menuBtn = document.getElementById('menuBtn');
@@ -975,6 +1345,50 @@
             var langToggle = document.getElementById('langToggle');
             var langPanel = document.getElementById('langPanel');
             var langLabel = document.getElementById('langLabel');
+            var languageMap = [
+                { selector: 'a[href="#categories"]', prop: 'textContent', fi: 'Kategoriat', en: 'Categories' },
+                { selector: 'a[href="#deals"]', prop: 'textContent', fi: 'Tarjoukset', en: 'Deals' },
+                { selector: 'a[href="#showroom"]', prop: 'textContent', fi: 'Näyttely', en: 'Showroom' },
+                { selector: 'a[href="#payment"]', prop: 'textContent', fi: 'Maksutavat', en: 'Payments' },
+                { selector: 'a[href="#contact"]', prop: 'textContent', fi: 'Yhteystiedot', en: 'Contact' },
+                { selector: '#searchInput', prop: 'placeholder', fi: 'Haku...', en: 'Search...' },
+                { selector: '#deals h2', prop: 'textContent', fi: 'Tuotteet / Tarjoukset', en: 'Products / Deals' },
+                { selector: '#lifestyle-gallery h2', prop: 'textContent', fi: 'Kuvat & elämäntapa', en: 'Gallery & Lifestyle' },
+                { selector: '#categories h2', prop: 'textContent', fi: 'Kategoriat', en: 'Categories' },
+                { selector: '#payment h2', prop: 'textContent', fi: 'Maksutavat', en: 'Payment Methods' },
+                { selector: '#contact h3', prop: 'textContent', fi: 'Puhelin', en: 'Phone' },
+                { selector: '#account h2', prop: 'textContent', fi: 'Tili / Asiakaspalvelu', en: 'Account / Support' },
+                { selector: '.bottom-nav a[data-nav="home"] .nav-label', prop: 'textContent', fi: 'Etusivu', en: 'Home' },
+                { selector: '.bottom-nav a[data-nav="contact"] .nav-label', prop: 'textContent', fi: 'Yhteys', en: 'Contact' },
+                { selector: '.bottom-nav a[data-nav="account"] .nav-label', prop: 'textContent', fi: 'Tili', en: 'Account' }
+            ];
+
+            function setText(el, prop, value) {
+                if (!el) return;
+                if (prop === 'placeholder') {
+                    el.placeholder = value;
+                } else if (prop === 'textContent') {
+                    el.textContent = value;
+                } else {
+                    el.setAttribute(prop, value);
+                }
+            }
+
+            function applyLanguage(lang) {
+                var useEn = lang === 'en';
+                languageMap.forEach(function (item) {
+                    var el = document.querySelector(item.selector);
+                    if (!el) return;
+                    setText(el, item.prop, useEn ? item.en : item.fi);
+                });
+                if (langLabel) langLabel.textContent = useEn ? 'English' : 'Suomi';
+                document.documentElement.lang = useEn ? 'en' : 'fi';
+                try {
+                    localStorage.setItem('sk_lang', useEn ? 'en' : 'fi');
+                } catch (err) {
+                    /* ignore localStorage errors */
+                }
+            }
             function closeLang() {
                 if (!langPanel || !langToggle) return;
                 langPanel.classList.remove('open');
@@ -1001,12 +1415,22 @@
                 langPanel.querySelectorAll('button[data-lang]').forEach(function (btn) {
                     btn.addEventListener('click', function () {
                         var lang = btn.getAttribute('data-lang');
-                        if (langLabel) langLabel.textContent = lang === 'fi' ? 'Suomi' : 'English';
-                        document.documentElement.lang = lang === 'fi' ? 'fi' : 'en';
+                        applyLanguage(lang === 'en' ? 'en' : 'fi');
                         closeLang();
                     });
                 });
             }
+            var savedLang = 'fi';
+            try {
+                savedLang = localStorage.getItem('sk_lang') || '';
+            } catch (err) {
+                savedLang = '';
+            }
+            if (!savedLang) {
+                var browserLang = (navigator.language || '').toLowerCase();
+                savedLang = browserLang.indexOf('fi') === 0 ? 'fi' : 'en';
+            }
+            applyLanguage(savedLang === 'en' ? 'en' : 'fi');
 
             function setNavCompact() {
                 document.body.classList.toggle('nav-compact', window.scrollY > 72);
